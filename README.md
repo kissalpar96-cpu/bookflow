@@ -1,4 +1,4 @@
-# # BookFlow
+# BookFlow
 
 A microservices-based appointment management SaaS
 platform for service-based businesses.
@@ -37,6 +37,8 @@ data ownership, and event-driven communication.
 - Conventional Commits
 - Automated testing
 - Architecture Decision Records (ADRs)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow.
 
 ## License
 
