@@ -7,12 +7,12 @@ flowchart TD
   UI -. OIDC .-> ID[Keycloak]
   GW --> ORG[Organization Service]
   GW --> BOOK[Booking Service]
-  BOOK -. API / events .-> ORG
+  BOOK -->|Employee API| ORG
   ORG --> ODB[(Organization DB)]
   BOOK --> BDB[(Booking DB)]
   ID --> IDDB[(Identity DB)]
   ORG --> MQ[RabbitMQ]
-  BOOK --> MQ
+  BOOK -->|Booking events| MQ
   MQ --> NOTIF[Notification Service]
   NOTIF --> NDB[(Notification DB)]
   MQ -. later .-> REP[Reporting Service]
@@ -32,8 +32,16 @@ Database per service (separate logical databases and credentials can share a loc
 
 Validate JWT issuer/audience and tenant membership per service. Decide how employee changes propagate and how stale data is handled before implementing cross-service workflows. Never assume tenant IDs supplied by clients are authorized.
 
-## Planned ADRs
-ADR-001 Microservices vs modular monolith; ADR-002 Monorepo vs polyrepo; ADR-003 Database per service; ADR-004 Keycloak; ADR-005 Sync and async communication; ADR-006 Docker Compose. Each should record context, alternatives, decision, consequences and status. Do not treat these as already written or approved.
+## Architecture decision records
+
+The following decisions are proposed and awaiting approval.
+
+- [ADR-001 · Microservices vs. Modular Monolith](../adr/ADR-001-microservices-vs-modular-monolith.md)
+- [ADR-002 · Monorepo vs. Polyrepo](../adr/ADR-002-monorepo-vs-polyrepo.md)
+- [ADR-003 · Database per Service](../adr/ADR-003-database-per-service.md)
+- [ADR-004 · Use Keycloak for Identity](../adr/ADR-004-use-keycloak-for-identity.md)
+- [ADR-005 · Synchronous and Asynchronous Communication](../adr/ADR-005-sync-and-async-communication.md)
+- [ADR-006 · Docker Compose for Local Development](../adr/ADR-006-docker-compose-for-local-development.md)
 
 ## Incremental delivery
 Sprint 0: gateway and two business service skeletons, PostgreSQL, migrations, tests, CI. Sprint 1: Keycloak and identity/organization. Introduce RabbitMQ when event use cases arrive; observability incrementally. No distributed transaction framework or service discovery infrastructure by default; evaluate actual deployment needs.
